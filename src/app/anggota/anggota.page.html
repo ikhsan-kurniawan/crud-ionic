@@ -1,0 +1,46 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Data Anggota</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">
+        Data Anggota
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-list lines="full">
+    <ion-button type="button" [routerLink]="['/anggota-tambah']" routerLinkActive="router-link-active" color="success" expand="block">Tambah Anggota</ion-button>
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header>
+      List Data Anggota
+    </ion-list-header>
+  </ion-list>
+  <ion-card lines="inset" *ngFor="let anggota_value of anggota">
+    <ion-item>
+      <ion-icon name="person" slot="start"></ion-icon>
+      <ion-label> {{ anggota_value.nama_anggota }} </ion-label>      
+
+      <ion-button slot="end" [routerLink]="['/anggota-lihat/', anggota_value.id_anggota]" routerLinkActive="router-link-active">
+        <ion-icon name="eye-outline"></ion-icon>
+      </ion-button>
+
+      <ion-button color="warning" slot="end" [routerLink]="['/anggota-edit/', anggota_value.id_anggota]" routerLinkActive="router-link-active">
+        <ion-icon name="create-outline"></ion-icon>
+      </ion-button>
+      
+      <ion-button color="danger" slot="end" (click)="deleteAnggota(anggota_value.id_anggota)">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-card>
+</ion-content>
