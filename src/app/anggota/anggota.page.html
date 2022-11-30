@@ -27,18 +27,18 @@
   </ion-list>
   <ion-card lines="inset" *ngFor="let anggota_value of anggota">
     <ion-item>
-      <ion-icon name="person" slot="start"></ion-icon>
+      <!-- <ion-icon name="person" slot="start"></ion-icon> -->
       <ion-label> {{ anggota_value.nama_anggota }} </ion-label>      
 
-      <ion-button slot="end" [routerLink]="['/anggota-lihat/', anggota_value.id_anggota]" routerLinkActive="router-link-active">
+      <ion-button class="no-margin" slot="end" [routerLink]="['/anggota-lihat/', anggota_value.id_anggota]" routerLinkActive="router-link-active">
         <ion-icon name="eye-outline"></ion-icon>
       </ion-button>
 
-      <ion-button color="warning" slot="end" [routerLink]="['/anggota-edit/', anggota_value.id_anggota]" routerLinkActive="router-link-active">
+      <ion-button class="no-margin" color="warning" slot="end" [routerLink]="['/anggota-edit/', anggota_value.id_anggota]" routerLinkActive="router-link-active">
         <ion-icon name="create-outline"></ion-icon>
       </ion-button>
       
-      <ion-button color="danger" slot="end" (click)="deleteAnggota(anggota_value.id_anggota)">
+      <ion-button class="no-margin" color="danger" slot="end" (click)="deleteAnggota(anggota_value.id_anggota)">
         <ion-icon name="trash-outline"></ion-icon>
       </ion-button>
     </ion-item>
