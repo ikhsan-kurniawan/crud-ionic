@@ -1,0 +1,49 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Tambah Peminjaman</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">
+        Tambah Peminjaman
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-list lines="full">
+
+    <ion-item>
+      <ion-label position="floating">Peminjam</ion-label>
+      <ion-select placeholder="Anggota" [(ngModel)]="id_anggota">
+        <ion-select-option *ngFor="let anggota_value of anggota" value="{{anggota_value.id_anggota}}">{{anggota_value.nama_anggota}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Buku</ion-label>
+      <ion-select placeholder="Buku" [(ngModel)]="id_buku">
+        <ion-select-option *ngFor="let buku_value of buku" [value]="buku_value.id_buku">{{buku_value.judul}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Tanggal Pinjam</ion-label>
+      <ion-datetime-button datetime="datetime"></ion-datetime-button>
+      <ion-modal [keepContentsMounted]="true">
+        <ng-template>
+          <ion-datetime [showDefaultButtons]="true" doneText="Pilih" cancelText="Batal" [(ngModel)]="pinjam" presentation="date" id="datetime"></ion-datetime>
+        </ng-template>
+      </ion-modal>
+    </ion-item>
+    <ion-row>
+      <ion-col>
+        <ion-button type="button" (click)="addPeminjaman()" color="primary" shape="full" expand="block">Tambah Buku
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-list>
+</ion-content>

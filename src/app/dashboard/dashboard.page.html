@@ -13,5 +13,23 @@
     <ion-label>Logout</ion-label>
   </ion-item> -->
   <hr>
- <center> Selamat datang {{ nama }}</center>
-</ion-content>
+ <div class="ion-text-center"> Selamat Datang</div>
+  <ion-card color="warning">
+    <ion-card-header>
+      <ion-card-title>{{ numAnggota }}</ion-card-title>
+      <ion-card-subtitle> Anggota</ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+  <ion-card color="tertiary">
+    <ion-card-header>
+      <ion-card-title>{{ numBuku }}</ion-card-title>
+      <ion-card-subtitle>Buku</ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+  <ion-card color="danger">
+    <ion-card-header>
+      <ion-card-title>{{ numPeminjaman }}</ion-card-title>
+      <ion-card-subtitle>Peminjaman</ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+ </ion-content>

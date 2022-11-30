@@ -1,0 +1,40 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Data Peminjaman</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">
+        Data Peminjaman
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-list lines="full">
+    <ion-button type="button" [routerLink]="['/peminjaman-tambah']" routerLinkActive="router-link-active" color="success" expand="block">Tambah Peminjaman</ion-button>
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header>
+      List Data Peminjaman
+    </ion-list-header>
+  </ion-list>
+  <ion-card lines="inset" *ngFor="let peminjaman_value of peminjaman">
+    <ion-item [routerLink]="['/peminjaman-lihat/', peminjaman_value.id_peminjaman]" routerLinkActive="router-link-active">
+    <ion-label>
+      <h2>{{peminjaman_value.nama_anggota}}</h2>
+      <h2>{{peminjaman_value.judul}}</h2>
+      <p>{{peminjaman_value.status}}</p>
+    </ion-label>
+    <!-- <ion-label>{{peminjaman_value.status}}</ion-label>
+    <ion-label>{{peminjaman_value.judul}}</ion-label>
+    <ion-label>{{peminjaman_value.status}}</ion-label> -->
+    </ion-item>
+  </ion-card>
+</ion-content>

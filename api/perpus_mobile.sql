@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 16, 2022 at 03:16 PM
+-- Generation Time: Nov 30, 2022 at 10:46 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.11
 
@@ -20,26 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `perpus_mobile`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `admin`
---
-
-CREATE TABLE `admin` (
-  `id_admin` int(11) NOT NULL,
-  `nama_admin` varchar(200) NOT NULL,
-  `username` varchar(200) NOT NULL,
-  `password` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `admin`
---
-
-INSERT INTO `admin` (`id_admin`, `nama_admin`, `username`, `password`) VALUES
-(1, 'admin', 'admin', '21232f297a57a5a743894a0e4a801fc3');
 
 -- --------------------------------------------------------
 
@@ -63,7 +43,8 @@ CREATE TABLE `anggota` (
 
 INSERT INTO `anggota` (`id_anggota`, `nama_anggota`, `nomor_telepon`, `alamat`, `username`, `password`, `status`) VALUES
 (11, 'Ammar', '0893483984', 'Purwokerto', '', '', ''),
-(12, 'Ikhsan Kur', '084756374657', 'Kebumen', '', '', '');
+(12, 'Ikhsan Kur', '084756374657', 'Kebumen', '', '', ''),
+(14, 'Wisnu', '085647564736', 'Purwokerto', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -75,10 +56,18 @@ CREATE TABLE `buku` (
   `id_buku` int(11) NOT NULL,
   `judul` varchar(200) NOT NULL,
   `penulis` varchar(200) NOT NULL,
-  `penerbit` varchar(200) NOT NULL,
-  `id_rak` int(11) NOT NULL,
-  `sampul` longblob NOT NULL
+  `penerbit` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `buku`
+--
+
+INSERT INTO `buku` (`id_buku`, `judul`, `penulis`, `penerbit`) VALUES
+(5, 'judul', 'author', 'penerbit'),
+(11, 'laskar pelangi', 'andrea hirata', 'gramedia'),
+(12, 'buku coba-cobaa', 'amatiran', 'toska'),
+(14, 'Kambing Jantan', 'Raditya Dika', 'Gagasmedia');
 
 -- --------------------------------------------------------
 
@@ -90,12 +79,20 @@ CREATE TABLE `peminjaman` (
   `id_peminjaman` int(11) NOT NULL,
   `id_anggota` int(11) NOT NULL,
   `id_buku` int(11) NOT NULL,
-  `id_petugas` int(11) NOT NULL,
   `tanggal_pinjam` varchar(200) NOT NULL,
   `tanggal_kembali` varchar(200) NOT NULL,
   `batas_pengembalian` varchar(200) NOT NULL,
   `status` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `peminjaman`
+--
+
+INSERT INTO `peminjaman` (`id_peminjaman`, `id_anggota`, `id_buku`, `tanggal_pinjam`, `tanggal_kembali`, `batas_pengembalian`, `status`) VALUES
+(5, 12, 11, '24-11-2022', '27-11-2022', '01-12-2022', 'selesai'),
+(6, 11, 12, '24-11-2022', '27-11-2022', '01-12-2022', 'selesai'),
+(8, 14, 14, '25-11-2022', '25-11-2022', '02-12-2022', 'selesai');
 
 -- --------------------------------------------------------
 
@@ -123,24 +120,33 @@ INSERT INTO `petugas` (`id_petugas`, `nama_petugas`, `nomor_telepon`, `alamat`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `rak`
+-- Stand-in structure for view `v_peminjaman`
+-- (See below for the actual view)
 --
+CREATE TABLE `v_peminjaman` (
+`id_peminjaman` int(11)
+,`id_anggota` int(11)
+,`id_buku` int(11)
+,`tanggal_pinjam` varchar(200)
+,`tanggal_kembali` varchar(200)
+,`batas_pengembalian` varchar(200)
+,`status` varchar(200)
+,`nama_anggota` varchar(200)
+,`judul` varchar(200)
+);
 
-CREATE TABLE `rak` (
-  `id_rak` int(11) NOT NULL,
-  `nomor_rak` int(11) NOT NULL,
-  `label` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- --------------------------------------------------------
+
+--
+-- Structure for view `v_peminjaman`
+--
+DROP TABLE IF EXISTS `v_peminjaman`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_peminjaman`  AS SELECT `peminjaman`.`id_peminjaman` AS `id_peminjaman`, `peminjaman`.`id_anggota` AS `id_anggota`, `peminjaman`.`id_buku` AS `id_buku`, `peminjaman`.`tanggal_pinjam` AS `tanggal_pinjam`, `peminjaman`.`tanggal_kembali` AS `tanggal_kembali`, `peminjaman`.`batas_pengembalian` AS `batas_pengembalian`, `peminjaman`.`status` AS `status`, `anggota`.`nama_anggota` AS `nama_anggota`, `buku`.`judul` AS `judul` FROM ((`peminjaman` join `anggota`) join `buku`) WHERE `peminjaman`.`id_anggota` = `anggota`.`id_anggota` AND `peminjaman`.`id_buku` = `buku`.`id_buku` ORDER BY `peminjaman`.`id_peminjaman` ASC ;
 
 --
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `admin`
---
-ALTER TABLE `admin`
-  ADD PRIMARY KEY (`id_admin`);
 
 --
 -- Indexes for table `anggota`
@@ -152,16 +158,14 @@ ALTER TABLE `anggota`
 -- Indexes for table `buku`
 --
 ALTER TABLE `buku`
-  ADD PRIMARY KEY (`id_buku`),
-  ADD KEY `id_rak` (`id_rak`);
+  ADD PRIMARY KEY (`id_buku`);
 
 --
 -- Indexes for table `peminjaman`
 --
 ALTER TABLE `peminjaman`
   ADD PRIMARY KEY (`id_peminjaman`),
-  ADD KEY `id_anggota` (`id_anggota`,`id_buku`,`id_petugas`),
-  ADD KEY `id_petugas` (`id_petugas`),
+  ADD KEY `id_anggota` (`id_anggota`,`id_buku`),
   ADD KEY `id_buku` (`id_buku`);
 
 --
@@ -172,38 +176,26 @@ ALTER TABLE `petugas`
   ADD UNIQUE KEY `username` (`username`);
 
 --
--- Indexes for table `rak`
---
-ALTER TABLE `rak`
-  ADD PRIMARY KEY (`id_rak`);
-
---
 -- AUTO_INCREMENT for dumped tables
 --
-
---
--- AUTO_INCREMENT for table `admin`
---
-ALTER TABLE `admin`
-  MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `anggota`
 --
 ALTER TABLE `anggota`
-  MODIFY `id_anggota` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_anggota` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `buku`
 --
 ALTER TABLE `buku`
-  MODIFY `id_buku` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_buku` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `peminjaman`
 --
 ALTER TABLE `peminjaman`
-  MODIFY `id_peminjaman` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_peminjaman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `petugas`
@@ -212,26 +204,13 @@ ALTER TABLE `petugas`
   MODIFY `id_petugas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `rak`
---
-ALTER TABLE `rak`
-  MODIFY `id_rak` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- Constraints for dumped tables
 --
-
---
--- Constraints for table `buku`
---
-ALTER TABLE `buku`
-  ADD CONSTRAINT `buku_ibfk_1` FOREIGN KEY (`id_rak`) REFERENCES `rak` (`id_rak`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `peminjaman`
 --
 ALTER TABLE `peminjaman`
-  ADD CONSTRAINT `peminjaman_ibfk_1` FOREIGN KEY (`id_petugas`) REFERENCES `petugas` (`id_petugas`) ON UPDATE CASCADE,
   ADD CONSTRAINT `peminjaman_ibfk_2` FOREIGN KEY (`id_anggota`) REFERENCES `anggota` (`id_anggota`) ON UPDATE CASCADE,
   ADD CONSTRAINT `peminjaman_ibfk_3` FOREIGN KEY (`id_buku`) REFERENCES `buku` (`id_buku`) ON UPDATE CASCADE;
 COMMIT;

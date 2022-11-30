@@ -1,0 +1,28 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Lihat Peminjaman</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Lihat Peminjaman</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div style="margin:0 10px" >
+    <p> ID Peminjaman: {{id}} </p>
+    <p> Peminjam: {{anggota}} </p>
+    <p> Buku: {{buku}} </p>
+    <p> Tanggal Pinjam: {{pinjam}} </p>
+    <p> Tanggal Kembali: {{kembali}} </p>
+    <p> Batas Pengembalian: {{batas}} </p>
+    <p> Status Peminjaman: {{status}} </p>
+  </div >
+  <div>
+    <ion-button *ngIf="!isDone" color="success" (click)="updatePeminjaman(id)">Selesaikan Peminjaman</ion-button>
+  </div>
+</ion-content>

@@ -3,6 +3,7 @@ import { Preferences } from '@capacitor/preferences';
 import { AuthenticationService } from '../services/authentication.service';
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { ApiService } from "../api.service";
 
 const USERNAME = 'namasaya';
 
@@ -13,7 +14,23 @@ const USERNAME = 'namasaya';
 })
 export class DashboardPage implements OnInit {
   public nama= '';
-  constructor(private authService: AuthenticationService, private alertController: AlertController, private router : Router) { }
+  anggota: any[];
+  numAnggota: any;
+  buku: any[];
+  numBuku: any;
+  peminjaman: any[];
+  numPeminjaman: any;
+
+  constructor(
+    private authService: AuthenticationService,
+    private alertController: AlertController,
+    private router : Router,
+    public _apiService: ApiService,
+  ) {
+    this.getAnggota();
+    this.getBuku();
+    this.getPeminjaman();
+  }
 
   ngOnInit() {
     this.cekSesi();
@@ -27,6 +44,58 @@ export class DashboardPage implements OnInit {
       this.nama = namauser;
     } else {
     }
+  }
+
+  getAnggota(){
+    this._apiService.getAnggota().subscribe((res:any)=>{
+      console.log("sukses", res);
+      this.anggota = res;
+      this.numAnggota = this.anggota.length;
+      
+    }, (error:any)=>{
+      console.log("gagal", error);
+      this.alertController.create({
+        header: 'Notifikasi',
+        message: 'Gagal memuat data anggota',
+        buttons: ['OK']
+      }).then(res => {
+        res.present();
+      })
+    });
+  }
+
+  getBuku(){
+    this._apiService.getBuku().subscribe((res:any)=>{
+      console.log("sukses", res);
+      this.buku = res;      
+      this.numBuku = this.buku.length;
+    }, (error:any)=>{
+      console.log("gagal", error);
+      this.alertController.create({
+        header: 'Notifikasi',
+        message: 'Gagal memuat data buku',
+        buttons: ['OK']
+      }).then(res => {
+        res.present();
+      })
+    });
+  }
+
+  getPeminjaman(){
+    this._apiService.getPeminjaman().subscribe((res:any)=>{
+      console.log("sukses", res);
+      this.peminjaman = res;
+      this.numPeminjaman = this.peminjaman.length;
+    }, (error:any)=>{
+      console.log("gagal", error);
+      this.alertController.create({
+        header: 'Notifikasi',
+        message: 'Gagal memuat data peminjaman',
+        buttons: ['OK']
+      }).then(res => {
+        res.present();
+      })
+    });
   }
 
   // logout() {

@@ -27,4 +27,23 @@ export class ApiService {
     return this.http.get(this.apiURL() + '/anggota-lihat.php?id=' + id);
   }
 
+  getBuku() {
+    return this.http.get(this.apiURL() + '/buku-tampil.php');
+  }
+
+  deleteBuku(id) {
+    return this.http.delete(this.apiURL() + '/buku-hapus.php?id=' + id);
+  }
+
+  ambilBuku(id) {
+    return this.http.get(this.apiURL() + '/buku-lihat.php?id=' + id);
+  }
+
+  getPeminjaman() {
+    return this.http.get(this.apiURL() + '/peminjaman-tampil.php');
+  }
+
+  ambilPeminjaman(id) {
+    return this.http.get(this.apiURL() + '/peminjaman-lihat.php?id=' + id);
+  }
 }

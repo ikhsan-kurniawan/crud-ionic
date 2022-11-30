@@ -38,7 +38,7 @@ export class AnggotaPage {
       console.log("gagal", error);
       this.alertController.create({
         header: 'Notifikasi',
-        message: 'Gagal memuat data mahasiswa',
+        message: 'Gagal memuat data anggota',
         buttons: ['OK']
       }).then(res => {
         res.present();
